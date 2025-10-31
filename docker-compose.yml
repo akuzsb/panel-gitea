@@ -10,4 +10,5 @@ services:
       - .env
     environment:
       - PORT=4040
+      - BASE_PATH=${BASE_PATH:-/}
     restart: unless-stopped

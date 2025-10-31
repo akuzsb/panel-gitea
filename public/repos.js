@@ -8,7 +8,7 @@ const statusBox = document.getElementById('status');
 const tableBody = document.querySelector('#repos-table tbody');
 
 async function fetchRepoStats(days, allBranches) {
-  const response = await fetch(`/api/repos?days=${days}&allBranches=${allBranches}`);
+  const response = await fetch(`api/repos?days=${days}&allBranches=${allBranches}`);
   if (!response.ok) {
     const error = await response.json().catch(() => ({ message: 'Error desconocido' }));
     throw new Error(error.message || 'Error al obtener las estadisticas de repositorios');
@@ -76,7 +76,7 @@ refreshButton.addEventListener('click', updateRepos);
 exportButton.addEventListener('click', () => {
   const days = Number(daysSelector.value);
   const includeAllBranches = allBranchesToggle.checked;
-  window.location.href = `/api/stats/export?days=${days}&allBranches=${includeAllBranches}`;
+  window.location.href = `api/stats/export?days=${days}&allBranches=${includeAllBranches}`;
 });
 
 document.addEventListener('DOMContentLoaded', updateRepos);

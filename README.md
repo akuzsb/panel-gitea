@@ -9,6 +9,7 @@ Panel web sencillo en Node.js + Express para visualizar un resumen de la activid
   - `URL_GITEA_HOST` (incluyendo protocolo, por ejemplo `http://mi-gitea.local`)
   - `URL_GITEA_PORT`
   - `URL_GITEA_API_KEY` (token con permisos de lectura sobre los repositorios que quieras analizar)
+  - `BASE_PATH` (opcional, prefijo bajo el que se sirve la app; por defecto `/`. Úsalo, por ejemplo, `/gitea` si publicas detrás de Nginx Proxy Manager en ese sub-path)
 
 ## Puesta en marcha
 

@@ -11,9 +11,25 @@ const { validateDaysParam } = require('./utils/validation');
 const app = express();
 const PORT = process.env.PORT || 4040;
 
-app.use(express.static(path.join(__dirname, '..', 'public')));
+function normalizeBasePath(value) {
+  if (!value) {
+    return '/';
+  }
+  let base = value.trim();
+  if (!base.startsWith('/')) {
+    base = `/${base}`;
+  }
+  base = base.replace(/\/+$/, '');
+  if (base === '') {
+    return '/';
+  }
+  return base;
+}
 
-app.get('/api/stats', async (req, res) => {
+const BASE_PATH = normalizeBasePath(process.env.BASE_PATH || '/');
+const router = express.Router();
+
+router.get('/api/stats', async (req, res) => {
   const { error, value: days } = validateDaysParam(req.query.days);
   if (error) {
     res.status(400).json({ message: error });
@@ -30,7 +46,7 @@ app.get('/api/stats', async (req, res) => {
   }
 });
 
-app.get('/api/repos', async (req, res) => {
+router.get('/api/repos', async (req, res) => {
   const { error, value: days } = validateDaysParam(req.query.days);
   if (error) {
     res.status(400).json({ message: error });
@@ -47,7 +63,7 @@ app.get('/api/repos', async (req, res) => {
   }
 });
 
-app.get('/api/stats/export', async (req, res) => {
+router.get('/api/stats/export', async (req, res) => {
   const { error, value: days } = validateDaysParam(req.query.days);
   if (error) {
     res.status(400).json({ message: error });
@@ -115,6 +131,17 @@ app.get('/api/stats/export', async (req, res) => {
   }
 });
 
+router.use(express.static(path.join(__dirname, '..', 'public')));
+
+if (BASE_PATH === '/') {
+  app.use('/', router);
+} else {
+  app.use(BASE_PATH, router);
+  app.get('/', (req, res) => {
+    res.redirect(`${BASE_PATH}/`);
+  });
+}
+
 app.listen(PORT, () => {
-  console.log(`Servidor escuchando en http://localhost:${PORT}`);
+  console.log(`Servidor escuchando en http://localhost:${PORT}${BASE_PATH === '/' ? '' : BASE_PATH}`);
 });
