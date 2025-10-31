@@ -137,6 +137,9 @@ if (BASE_PATH === '/') {
   app.use('/', router);
 } else {
   app.use(BASE_PATH, router);
+  app.get(BASE_PATH, (req, res) => {
+    res.redirect(301, `${BASE_PATH}/`);
+  });
   app.get('/', (req, res) => {
     res.redirect(`${BASE_PATH}/`);
   });
