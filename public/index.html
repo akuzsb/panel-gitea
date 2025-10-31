@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel de actividad Gitea</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <div class="title-group">
+        <h1>Actividad reciente en Gitea</h1>
+        <nav class="nav">
+          <a href="/index.html" class="nav-link nav-link-active">Usuarios</a>
+          <a href="/repos.html" class="nav-link">Repositorios</a>
+        </nav>
+      </div>
+      <div class="controls">
+        <label for="days">Periodo:</label>
+        <select id="days">
+          <option value="1">1 día</option>
+          <option value="7" selected>7 días</option>
+          <option value="15">15 días</option>
+          <option value="30">30 días</option>
+        </select>
+        <label class="toggle">
+          <input type="checkbox" id="all-branches" />
+          <span>Todas las ramas</span>
+        </label>
+        <button id="refresh">Actualizar</button>
+        <button id="export">Exportar Excel</button>
+      </div>
+    </header>
+
+    <section id="status" class="status">Selecciona un periodo y pulsa "Actualizar".</section>
+
+    <section class="table-wrapper">
+      <table id="stats-table">
+        <thead>
+          <tr>
+            <th>Usuario</th>
+            <th>Commits</th>
+            <th>Lineas cambiadas</th>
+            <th>Repositorios</th>
+            <th>Última actividad</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="/app.js" defer></script>
+</body>
+</html>
